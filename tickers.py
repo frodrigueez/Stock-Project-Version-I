@@ -6,15 +6,14 @@ import os.path
 import requests
 import re
 from iex import Stock
-link = "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQrender=download"
+link = "https://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&pagesize=200"
 tickers = []
 d = requests.get(link)
-#print(d.text
+
 html_file = open('html.txt', 'w')
 html_file.write(d.text)
 html_file = open('html.txt')
 
-# print(html_file)
 tickerbaselink = "https://www.nasdaq.com/symbol/"
 i = 1
 for line in html_file.readlines():
@@ -29,16 +28,29 @@ for line in html_file.readlines():
             i = 0
         i = i + 1
 
-print(tickers)
 # fetches the first n valid tickers from the following URL and write tickes in
 # file tickers.txt
 def save_tickers(amountOfTickers):
+    if amountOfTickers > 150:
+        raise IndexError("n passed to save_tickers out of range. n must be <= 150")
+    f = open('tickers.txt', 'w')
+    
     n = 0
     validTickers = []
     for x in tickers:
-        try:
-            validTickers.append(x)
-        except Exception:
-            print("not valid")
+        if n == amountOfTickers:
+            break
+        else:
+            try:
+                Stock(x).price()
+                validTickers.append(x)
+                n += 1
+                f.write('{0}\n'.format(x))
+                print(x)
+                print(n)
+            except Exception:
+                print("not valid")
+
+
 if __name__ == "__main__":
-    save_tickers(5)
+    save_tickers(150)
