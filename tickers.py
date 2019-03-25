@@ -6,7 +6,8 @@ import os.path
 import requests
 import re
 from iex import Stock
-
+import sys 
+import os 
 
 # fetches the first n valid tickers from the following URL and write tickes in
 # file tickers.txt
@@ -35,7 +36,10 @@ def save_tickers(amountOfTickers):
     
     if amountOfTickers > 150:
         raise IndexError("n passed to save_tickers out of range. n must be <= 150")
-    f = open('tickers.txt', 'w')
+    ticker_filename = sys.argv[2]
+    ticker_filename += ".txt"
+
+    f = open(ticker_filename, 'w')
 
     n = 0
     validTickers = []
@@ -44,15 +48,16 @@ def save_tickers(amountOfTickers):
             break
         else:
             try:
+                sys.stdout = open(os.devnull, 'w')
                 Stock(x).price()
+                sys.stdout = sys.__stdout__
                 validTickers.append(x)
                 n += 1
                 f.write('{0}\n'.format(x))
-                print(x)
-                print(n)
             except Exception:
                 print("not valid")
 
+    os.remove("./html.txt")
 
 if __name__ == "__main__":
-    save_tickers(150)
+    save_tickers(int(sys.argv[1]))
