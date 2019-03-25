@@ -15,10 +15,17 @@ html_file = open('html.txt')
 
 # print(html_file)
 tickerbaselink = "https://www.nasdaq.com/symbol/"
+i = 1
 for line in html_file.readlines():
     x = re.search(tickerbaselink, line)
     if x is not None:
-        print(x.string)
+    #really ratchet counter, but it works :) 
+        if i is 1:
+            print(x.string)
+        if i is 3:
+            i = 0
+        i = i + 1
+
 # fetches the first n valid tickers from the following URL and write tickes in
 # file tickers.txt
 # def save_tickers():
