@@ -20,31 +20,24 @@ t = {}
 # elapsed = (time.time() - start)
 # print(timetoend)
 # while time.time < timetoend:
-    
 
 # read all tickers from an input file
 f = open(sys.argv[2], 'r')
 keys = ['low', 'high', 'open', 'close', 'latestPrice', 'latestVolume']
 for line in f.readlines():
-    # call parserfunction
-    # t[line] =
+    sys.stdout = open(os.devnull, 'w')
+
     stock = Stock(line.strip())
-    print(stock.quote())
     t = {key:value for key, value in stock.quote().items() if key in keys}
+    sys.stdout = sys.__stdout__
+
     print(t)
-    
 
-
-# def parsestocks(dictonary):
-#    stockdata = []
-#    for stock in dictionary:
-	
-	
 # this function will update current stock information for ticker passed as arg
 # will write/update in an information file (ex: info.csv)
-# def updateStockInfo(ticker):
-#    w = open(writefile, 'w')
-#    with open(writefile, mode='w') as info_file:
-#    writer = cvs.writer(file, delimiter=',', quore
+#def updateStockInfo(ticker):
+ #   with open(writefile, mode='w') as info_file:
+  #  fields = ['Time', 'Ticker', 'latestPrice', 'latestVolume', 'Close', 'Open', 'low', 'high']
+   # writer = cvs.writer(file, delimiter=',', quore
 
 
