@@ -6,13 +6,21 @@ import os.path
 import requests
 import re
 from iex import Stock
-import sys 
-import os 
+from selenium import webdriver
+import sys
+import os
 
 # fetches the first n valid tickers from the following URL and write tickes in
 # file tickers.txt
 def save_tickers(amountOfTickers):
-    link = "https://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&pagesize=200"
+    driver = webdriver.Chrome('./chromedriver')
+    link = "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQrender=download"
+    driver.get(link)
+    driver.find_element_by_xpath('//*[@id="main_content_lstpagesize"]/option[4]').click()
+
+    #link = "https://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ"
+    link = driver.current_url
+
     tickers = []
     d = requests.get(link)
 
@@ -33,7 +41,7 @@ def save_tickers(amountOfTickers):
             if i is 3:
                 i = 0
             i = i + 1
-    
+
     if amountOfTickers > 150:
         raise IndexError("n passed to save_tickers out of range. n must be <= 150")
     ticker_filename = sys.argv[2]
@@ -61,3 +69,4 @@ def save_tickers(amountOfTickers):
 
 if __name__ == "__main__":
     save_tickers(int(sys.argv[1]))
+    # save_tickers(1)
