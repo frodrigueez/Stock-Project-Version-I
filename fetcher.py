@@ -4,13 +4,17 @@ to execute: python3 fetcher.py time_lim ticker_filename info_filename
 import os 
 import sys 
 import time
+import pandas
+import csv
 
-timestarted = time.time
-timetorun = int(sys.argv[1])
-timetoend = int(timetorun + timestarted)
+writefile = sys.argv[3]
+writefile += ".csv"
+print(writefile)
 
-print(timetoend)
-
+# TODO: add timing part
+# start = time.time
+# elapsed = (time.time() - start)
+# print(timetoend)
 # while time.time < timetoend:
     
 
@@ -22,6 +26,7 @@ for line in f.readlines():
 # this function will update current stock information for ticker passed as arg
 # will write/update in an information file (ex: info.csv)
 def updateStockInfo(ticker):
-    w = open(sys.argv[3], 'w')
-
+    w = open(writefile, 'w')
+    with open(writefile, mode='w') as file:
+        writer = cvs.writer(file, delimiter=',', quore
 
