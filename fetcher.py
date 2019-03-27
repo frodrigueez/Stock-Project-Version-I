@@ -39,7 +39,7 @@ def updateStockInfo(ticker):
             t = {key:value for key, value in updatedInfo.quote().items() if key in keys}
             sys.stdout = sys.__stdout__
             tlist[ticker] = t
-            writer.writerow({'Time': time.strftime("%H:%M"), 'Ticker': ticker, 'latestPrice':
+            writer.writerow({'Time': time.strftime("%H:%M"), 'Ticker': ticker.strip(), 'latestPrice':
                 tlist[ticker]['latestPrice'], 'latestVolume': tlist[ticker]['latestVolume'], 'Close': tlist[ticker]['close'],
                 'Open':tlist[ticker]['open'], 'low':tlist[ticker]['low'], 'high':tlist[ticker]['high']})
 
@@ -49,52 +49,44 @@ def updateStockInfo(ticker):
 
 
 if __name__ == "__main__":
-# whole module should be timed
-
-    #print("now checking 'PHI'")
-    #updateStockInfo("PIH")
-    #print("now checking 'YI'")
-    #updateStockInfo("YI")
-
-# first read tickers from input file 
-    keys = ['symbol','low', 'high', 'open', 'close', 'latestPrice', 'latestVolume']
-    start = time.time()
-    elapsed = 0
-
+    # whole module should be timed
+    # first read tickers from input file 
     f = open(ticker_filename, 'r')
-
-    
+    start = time.time()
+    print(f"actual start: {start}")
+    elapsed = 0
+    print(f"time_lim = {time_lim}") 
     while elapsed < int(time_lim):
-        line = f.readline()
-        while line:
-            print(f"on line: {line}")
-            if elapsed < int(time_lim):
-                stock = Stock(line.strip())
-                t = {key:value for key, value in stock.quote().items() if key in keys}
-                print(t)
-                print("elapsed:")
-                print(elapsed)
-                print("current time:")
-                print(time.strftime("%H:%M"))
+        print(f"elapsed: {elapsed}")
+        ticker = f.readline()
+        while ticker:
+            if elapsed < int(time_lim):  
+                updateStockInfo(ticker)
+                #stock = Stock(ticker.strip())
+                #t = {key:value for key, value in stock.quote().items() if key in keys}
+                #tlist[ticker] = t
+                #print(t)
+                #print(tlist)
+                #print("elapsed:")
+                #print(elapsed)
+                #print("current time:")
+                #print(time.strftime("%H:%M"))
                 elapsed = time.time() - start
                 #time.sleep(60)
             else:
                 break
-            line = f.readline()
+            ticker = f.readline()
         f = open(ticker_filename, 'r')
         elapsed = time.time() - start
+
         if int(time_lim)-elapsed > 60:
             time.sleep(60)
-        else:
-            break
-        print(elapsed)
+        #else:
+        #    print(f"time lim < 60...{time_lim}")
+        #    break
+        
+    print(elapsed)
 
-        #f = open(ticker_filename, 'r')
-        #for ticker in f.readlines():
-        #    if re.search(whitespace, ticker) is None:
-        #        tickers.append(ticker.strip())
-    
-        #print(tickers)        
         
 
 
