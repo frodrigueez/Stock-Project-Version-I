@@ -63,7 +63,7 @@ if __name__ == "__main__":
             tickers.append(ticker.strip())
 
     print(tickers)        
-=======
+
 writefile += ".csv"
 print(writefile)
 
@@ -107,6 +107,7 @@ while elapsed < int(sys.argv[1]):
     else:
         break
 print(elapsed)
+
 # def parsestocks(dictonary):
 #    stockdata = []
 #    for stock in dictionary:
@@ -118,4 +119,3 @@ print(elapsed)
 #    w = open(writefile, 'w')
 #    with open(writefile, mode='w') as info_file:
 #    writer = cvs.writer(file, delimiter=',', quore
->>>>>>> 438a3f8debc858dd2c05e7f0c0ded0d4af8c975a
