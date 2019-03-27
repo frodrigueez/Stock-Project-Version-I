@@ -23,6 +23,7 @@ keys = ['symbol','low', 'high', 'open', 'close', 'latestPrice', 'latestVolume']
 will write/update in an information file (ex: info.csv)
 """
 def updateStockInfo(ticker):
+    print(f"ticker in updateStockInfo({ticker})")
     keys = ['symbol','low', 'high', 'open', 'close', 'latestPrice', 'latestVolume']
     # check for file existance so you don't overwrite header
     exists = os.path.isfile(writefile)
@@ -32,6 +33,14 @@ def updateStockInfo(ticker):
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         if exists==False:
             writer.writeheader()
+            sys.stdout = open(os.devnull, 'w')
+            updatedInfo = Stock(ticker.strip())
+            t = {key:value for key, value in updatedInfo.quote().items() if key in keys}
+            sys.stdout = sys.__stdout__
+            tlist[ticker] = t
+            writer.writerow({'Time': time.strftime("%H:%M"), 'Ticker': ticker.strip(), 'latestPrice':
+                tlist[ticker]['latestPrice'], 'latestVolume': tlist[ticker]['latestVolume'], 'Close': tlist[ticker]['close'],
+                'Open':tlist[ticker]['open'], 'low':tlist[ticker]['low'], 'high':tlist[ticker]['high']})
         else:
             # just add the new info every min
             sys.stdout = open(os.devnull, 'w')
@@ -81,9 +90,9 @@ if __name__ == "__main__":
 
         if int(time_lim)-elapsed > 60:
             time.sleep(60)
-        #else:
-        #    print(f"time lim < 60...{time_lim}")
-        #    break
+        else:
+            print(f"time lim < 60...{time_lim}")
+            break
         
     print(elapsed)
 
