@@ -4,17 +4,32 @@
 (ex 13:31)
 """
 import sys
+import re
 import os
-import logging as log 
+import logging as log
 import argparse
+
 
 """
 prints details corresponding to specific time and ticker symbol to terminal
 """
-
-# def queryStock(infofile, time, ticker):
-
-
+def queryStock(infofile, time, ticker):
+    with open(infofile) as f:
+        for line in f:
+            if(time == line[:5]):
+                # print("true")
+                r = r",[A-Z]{2,5},"
+                #print(f"searching line {line}")
+                if re.search(r, line) is not None:
+                    match = re.search(r, line)
+                    match = match.group()
+                    match = match[1:-1]
+                    if(match == ticker):
+                        print(f"{match} is true")
+                #if
+                # print("false")
+                else:
+                    print("lll")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -32,5 +47,4 @@ if __name__ == "__main__":
         #else:
         #    print(f"vflag is off")
 
-
-
+    # queryStock(sys.argv[1], sys.argv[2], sys.argv[3])
