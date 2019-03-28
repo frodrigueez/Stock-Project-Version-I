@@ -16,9 +16,30 @@ A function that reads data from infofile, selects data for specified ticker,
 & trains machine learning based model to predict value of specified col for
 next t mins
 """
-#def trainData(infofile, ticker, col, t, graphfile):
+
+"""
+this function will return a list of all mins for which there are entries
+to help gather historical stock data
+"""
+def getAllMins(infofile):
+    r = r"^\d{2}:\d{2},\b"
+    mins = set()
+    f = open(infofile)
+    for line in f.readlines():
+        search = re.search(r, str(line))
+        if search is not None:
+            mins.add(search.group()[:-1])
+    return mins
+
+"""
+A function that reads data from infofile, selects data for specified ticker,
+& trains machine learning based model to predict value of specified col for
+next t mins
+"""
+def trainData(infofile, ticker, col, t, graphfile):
 # read data from info file
-# queryStock(args.info_filename, "15:03", args.ticker, False)
+    for i in range( t ):
+        queryStock(args.info_filename, "15:03", args.ticker, False)
 # select data for specified ticker
 # train machine learning based model to preduct value of col
 # for next t minutes
@@ -37,18 +58,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     data = pandas.read_csv(args.info_filename)
-    print(data)
-    #print(df.keys())
-    #print(df.Ticker)
-    #print(df)
-    #tickers = data."Tickers".tolist()
-
-
-    hi =queryStock(args.info_filename, "15:03", args.ticker, False)
-    print(hi)
-# initalizing inital linear regression object 
-#    model = LinearRegression()
-    #model.fit(x,y)
+    # print(data)
+    getAllMins(str(args.info_filename))
+    #hi =queryStock(args.info_filename, "15:03", args.ticker, False)
+    #print(hi)
+    # initalizing inital linear regression object 
+    # model = LinearRegression()
+    # model.fit(x,y)
 
 
 
