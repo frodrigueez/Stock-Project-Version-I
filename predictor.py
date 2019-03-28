@@ -20,20 +20,42 @@ def getAllMins(infofile):
     r = r"^\d{2}:\d{2},\b"
     mins = set()
     f = open(infofile)
+
     for line in f.readlines():
         search = re.search(r, str(line))
         if search is not None:
             mins.add(search.group()[:-1])
+
     return mins
 
 def getHistoricalData(infofile, mins, ticker):
     hd = []
+
     for m in mins:
         sys.stdout = open(os.devnull, 'w')
         hd.append(queryStock(infofile, m, ticker, False))
         sys.stdout = sys.__stdout__
+
     return hd
 
+def getColData(col, historicaldata):
+    latestPrices = []
+    latestVolumes = []
+    
+    i = 0 
+    for data in historicaldata:
+        if col == "latestPrice": # get 3rd column of data
+            latestPrices.append(historicaldata[i][2])
+        elif col == "latestVolume": # get 4th column of data
+            latestVolumes.append(historicaldata[i][3])
+        i+=1
+
+    if latestPrices:
+        print(f"latestPrices= {latestPrices}")
+        return latestPrices
+    if latestVolumes:
+        print(f"latestVolumes= {latestVolumes}")
+        return latestVolumes
 """
 A function that reads data from infofile, selects data for specified ticker,
 & trains machine learning based model to predict value of specified col for
@@ -42,7 +64,11 @@ next t mins
 def trainData(infofile, ticker, col, t, graphfile):
     mins = getAllMins(infofile)
     hdata = getHistoricalData(infofile, mins, ticker)
-    print(hdata)
+    latestColData = getColData(col,hdata)
+    
+
+    model = LinearRegression()
+    # model.fit(x,y)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -57,9 +83,6 @@ if __name__ == "__main__":
     
 
     trainData(args.info_filename, args.ticker, args.col, args.t, args.graph_filename)
-    # initalizing inital linear regression object 
-    model = LinearRegression()
-    # model.fit(x,y)
 
 
 
