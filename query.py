@@ -14,24 +14,35 @@ import argparse
 prints details corresponding to specific time and ticker symbol to terminal
 """
 def queryStock(infofile, time, ticker, verbose):
-    if verbose:
+    if not verbose:
         print(f"verbose is on")
-    with open(infofile) as f:
-        for line in f:
-            if(time == line[:5]):
-                # print("true")
-                r = r",[A-Z]{2,5},"
-                #print(f"searching line {line}")
-                if re.search(r, line) is not None:
-                    match = re.search(r, line)
-                    match = match.group()
-                    match = match[1:-1]
-                    if(match == ticker):
-                        print(f"{match} is true")
-                #if
-                # print("false")
-                else:
-                    print("lll")
+        with open(infofile) as f:
+            for line in f:
+                if(time == line[:5]):
+                    # print("true")
+                    r = r",[A-Z]{2,5},"
+                    #print(f"searching line {line}")
+                    if re.search(r, line) is not None:
+                        match = re.search(r, line)
+                        match = match.group()
+                        match = match[1:-1]
+                        if(match == ticker):
+                            print(f"{match} is true")
+                            allFields = re.search(r, line).string
+                            time, ticker, latest_price,latest_volume, close, open_v, low, high = allFields.split(',')
+                            print(f"Time: {time}")
+                            print(f"Ticker: {ticker}")
+                            print(f"Latest Price: {latest_price}")
+                            print(f"Latest Volume: {latest_volume}")
+                            print(f"Close: {close}")
+                            print(f"Open: {open_v}")
+                            print(f"Low: {low}")
+                            print(f"High: {high}")
+                            
+    else:
+        print("verbose")
+
+
 
 if __name__ == "__main__":
     # initalizing all required flags
@@ -45,7 +56,7 @@ if __name__ == "__main__":
     parser.add_argument("giventime")
 
     args = parser.parse_args()
-    print(f".info_filename: {type(args.info_filename)} .giventime:{type(args.giventime)}, .tickername:{type(args.tickername)}, .verbose:{type(args.verbose)}")
+    #print(f".info_filename: {type(args.info_filename)} .giventime:{type(args.giventime)}, .tickername:{type(args.tickername)}, .verbose:{type(args.verbose)}")
     queryStock(args.info_filename, args.giventime, args.tickername, args.verbose)
 
     #if args.file and args.info_filename and args.ticker and args.tickername and args.time and args.giventime:
