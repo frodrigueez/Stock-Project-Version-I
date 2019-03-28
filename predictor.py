@@ -8,9 +8,8 @@ import pandas
 import argparse
 import matplotlib.pyplot as plt
 from query import queryStock
-
 """
-A function that reads data from infofile, selects data for specified ticker, 
+A function that reads data from infofile, selects data for specified ticker,
 & trains machine learning based model to predict value of specified col for
 next t mins
 """
@@ -31,4 +30,5 @@ if __name__ == "__main__":
     # initalizing inital linear regression object 
     model = LinearRegression()
     #regressor.fit()
+
 
