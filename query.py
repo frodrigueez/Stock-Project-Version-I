@@ -8,6 +8,7 @@ import re
 import os
 import logging as log
 import argparse
+import pandas
 
 
 """
@@ -33,27 +34,34 @@ def queryStock(infofile, time, ticker, verbose):
                             time, ticker, latest_price,latest_volume, close, open_v, low, high = allFields.split(',')
                             print(f"Time: {time}")
                             var.append(time.strip())
+
                             print(f"Ticker: {ticker}")
                             var.append(ticker.strip())
+
                             print(f"Latest Price: {latest_price}")
                             var.append(latest_price.strip())
+
                             print(f"Latest Volume: {latest_volume}")
                             var.append(latest_volume.strip())
+
                             print(f"Close: {close}")
                             var.append(close.strip())
+
                             print(f"Open: {open_v}")
                             var.append(open_v.strip())
+
                             print(f"Low: {low}")
                             var.append(low.strip())
+
                             print(f"High: {high}")
                             var.append(high.strip())
+
                             return var
-                            
+
     else:
-        print("verbose")
-
-
-
+        df = pandas.read_csv(infofile)
+        tickerVerbose = df.loc[(df['Ticker'] == ticker) & (df['Time'] == time)]
+        print(tickerVerbose)
 if __name__ == "__main__":
     # initalizing all required flags
     parser = argparse.ArgumentParser()
