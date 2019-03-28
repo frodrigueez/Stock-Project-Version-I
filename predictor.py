@@ -3,7 +3,7 @@ a .py file for the predictor module. to execute: python3 predictor.py ticker
 info_filename graph_filename col t
 """
 from sklearn.linear_model import LinearRegression
-import numpy
+import numpy as np
 import pandas
 import argparse
 import matplotlib.pyplot as plt
@@ -12,13 +12,15 @@ from sklearn.model_selection import train_test_split
 import re
 import sys 
 import os
+from fetcher import updateStockInfo
+from orderedset import OrderedSet
 """
 this function will return a list of all mins for which there are entries
 to help gather historical stock data
 """
 def getAllMins(infofile):
     r = r"^\d{2}:\d{2},\b"
-    mins = set()
+    mins = OrderedSet()
     f = open(infofile)
 
     for line in f.readlines():
@@ -56,6 +58,14 @@ def getColData(col, historicaldata):
     if latestVolumes:
         print(f"latestVolumes= {latestVolumes}")
         return latestVolumes
+
+def plotHistoricalData(mins, hd, col,graph):
+    plt.plot(mins, hd)
+    plt.xlabel('Mins')
+    plt.ylabel(col)
+    plt.show()
+    plt.savefig(graph,transparent=True)
+
 """
 A function that reads data from infofile, selects data for specified ticker,
 & trains machine learning based model to predict value of specified col for
@@ -65,7 +75,11 @@ def trainData(infofile, ticker, col, t, graphfile):
     mins = getAllMins(infofile)
     hdata = getHistoricalData(infofile, mins, ticker)
     latestColData = getColData(col,hdata)
-    
+
+    minsnp = np.asarray(list(mins))
+    lcdnp = np.asarray(latestColData)
+
+    plotHistoricalData(minsnp, lcdnp, col, graphfile) 
 
     model = LinearRegression()
     # model.fit(x,y)
