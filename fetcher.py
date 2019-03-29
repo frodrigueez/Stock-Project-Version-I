@@ -23,7 +23,6 @@ keys = ['symbol','low', 'high', 'open', 'close', 'latestPrice', 'latestVolume']
 will write/update in an information file (ex: info.csv)
 """
 def updateStockInfo(ticker):
-    print(f"ticker in updateStockInfo({ticker})")
     keys = ['symbol','low', 'high', 'open', 'close', 'latestPrice', 'latestVolume']
     # check for file existance so you don't overwrite header
     exists = os.path.isfile(writefile)
