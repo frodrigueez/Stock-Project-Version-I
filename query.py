@@ -61,7 +61,7 @@ def queryStock(infofile, time, ticker, verbose):
     else:
         df = pandas.read_csv(infofile)
         tickerVerbose = df.loc[(df['Ticker'] == ticker) & (df['Time'] == time)]
-        print(type(tickerVerbose))
+        print(tickerVerbose)
 if __name__ == "__main__":
     # initalizing all required flags
     parser = argparse.ArgumentParser()
