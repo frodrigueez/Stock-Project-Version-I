@@ -18,7 +18,6 @@ def save_tickers(amountOfTickers):
     driver.get(link)
     driver.find_element_by_xpath('//*[@id="main_content_lstpagesize"]/option[4]').click()
 
-    #link = "https://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ"
     link = driver.current_url
 
     tickers = []
@@ -33,7 +32,6 @@ def save_tickers(amountOfTickers):
     for line in html_file.readlines():
         x = re.search(tickerbaselink, line)
         if x is not None:
-        #really ratchet  counter, but it works :)
             if i is 1:
                 t = os.path.basename(x.string).upper()
                 t = t[:-3]
@@ -69,4 +67,3 @@ def save_tickers(amountOfTickers):
 
 if __name__ == "__main__":
     save_tickers(int(sys.argv[1]))
-    # save_tickers(1)

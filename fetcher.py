@@ -16,7 +16,7 @@ time_lim = sys.argv[1]
 ticker_filename = sys.argv[2]
 writefile = sys.argv[3]
 t = {} # each stock entry
-tlist = {} # a dictionary of dictionaries 
+tlist = {} # a dictionary of dictionaries
 keys = ['symbol','low', 'high', 'open', 'close', 'latestPrice', 'latestVolume']
 
 """ this function will update current stock information for ticker passed as arg
@@ -59,17 +59,17 @@ def updateStockInfo(ticker):
 
 if __name__ == "__main__":
     # whole module should be timed
-    # first read tickers from input file 
+    # first read tickers from input file
     f = open(ticker_filename, 'r')
     start = time.time()
-    print(f"actual start: {start}")
+    #print(f"actual start: {start}")
     elapsed = 0
-    print(f"time_lim = {time_lim}") 
+    #print(f"time_lim = {time_lim}")
     while elapsed < int(time_lim):
-        print(f"elapsed: {elapsed}")
+        #print(f"elapsed: {elapsed}")
         ticker = f.readline()
         while ticker:
-            if elapsed < int(time_lim):  
+            if elapsed < int(time_lim):
                 updateStockInfo(ticker)
                 #stock = Stock(ticker.strip())
                 #t = {key:value for key, value in stock.quote().items() if key in keys}
@@ -91,11 +91,7 @@ if __name__ == "__main__":
         if int(time_lim)-elapsed > 60:
             time.sleep(60)
         else:
-            print(f"time lim < 60...{time_lim}")
+            #print(f"time lim < 60...{time_lim}")
             break
-        
-    print(elapsed)
 
-        
-
-
+    #print(elapsed)

@@ -17,7 +17,7 @@ prints details corresponding to specific time and ticker symbol to terminal
 def queryStock(infofile, time, ticker, verbose):
     var = []
     if not verbose:
-        print(f"verbose is off")
+        #print(f"verbose is off")
         with open(infofile) as f:
             for line in f:
                 if(time == line[:5]):
@@ -61,7 +61,7 @@ def queryStock(infofile, time, ticker, verbose):
     else:
         df = pandas.read_csv(infofile)
         tickerVerbose = df.loc[(df['Ticker'] == ticker) & (df['Time'] == time)]
-        print(tickerVerbose)
+        print(type(tickerVerbose))
 if __name__ == "__main__":
     # initalizing all required flags
     parser = argparse.ArgumentParser()
