@@ -17,7 +17,7 @@ prints details corresponding to specific time and ticker symbol to terminal
 def queryStock(infofile, time, ticker, verbose):
     var = []
     if not verbose:
-        print(f"verbose is off")
+        #print(f"verbose is off")
         with open(infofile) as f:
             for line in f:
                 if(time == line[:5]):
