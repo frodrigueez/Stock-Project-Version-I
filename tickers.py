@@ -43,7 +43,6 @@ def save_tickers(amountOfTickers):
     if amountOfTickers > 150:
         raise IndexError("n passed to save_tickers out of range. n must be <= 150")
     ticker_filename = sys.argv[2]
-    ticker_filename += ".txt"
 
     f = open(ticker_filename, 'w')
 
