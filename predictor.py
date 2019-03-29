@@ -75,45 +75,45 @@ def trainData(infofile, ticker, col, t, graphfile):
     X = x
 
     y = data.loc[(data['Ticker'] == args.ticker)]
-    # TODO: check this is right 
     if col == "latestPrice":
         y = y.iloc[:,3:4]
     elif col == "latestVolume":
         y = y.iloc[:,4:5]
     
-    # split data into training and test sets
+# split data into training and test sets
     x_training_set, x_test_set, y_training_set, y_test_set = train_test_split(X,y)
 
-    # cast data options from series into 1D arrays
+# cast data options from series into 1D arrays
     x_training_set, x_test_set, y_training_set, y_test_set = x_training_set.values, x_test_set.values, y_training_set.values, y_test_set.values
     x_training_set, x_test_set, y_training_set, y_test_set = x_training_set.reshape(-1,1), x_test_set.reshape(-1,1), y_training_set.reshape(-1,1), y_test_set.reshape(-1,1)
     
-    plt.title('Relationship between dependent and target variable')
+    plt.title('Relationship between time and col')
     #print(type(x_training_set))
     #print(type(y_training_set))
-    print(x_training_set)
-    print(y_training_set)
-    plt.scatter(x_training_set,y_training_set, color = 'pink', alpha = 0.35)
+    #print(x_training_set)
+    #print(y_training_set)
+    plt.scatter(x_training_set,y_training_set, color = 'yellow', alpha = 0.35)
     plt.show()
 
-    # fit model to data
+# fit model to data
     lm = linear_model.LinearRegression()
     lm.fit(x_training_set, y_training_set)
-    print('Slope: ', lm.coef_)
-    print('Intercept: ', lm.intercept_)
+    #print('Slope: ', lm.coef_)
+    #print('Intercept: ', lm.intercept_)
 
-    # evaluate model
+# evaluate model
     model_score = lm.score(x_training_set, y_training_set)
-    print('Model score: {:.4f} '.format(model_score))
+    #print('Model score: {:.4f} '.format(model_score))
     y_predicted = lm.predict(x_test_set)
+    #print(f"y_predicted: {y_predicted}")
     r_squared_score = r2_score(y_test_set, y_predicted)
-    print('r square: {:.4f}'.format(r_squared_score))
+    #print('r square: {:.4f}'.format(r_squared_score))
     # lower value is prefered
     mse = mean_squared_error(y_test_set, y_predicted)
 
     plt.title('Comparison of Y values in test and the predicted values')
     plt.plot(x_test_set, y_predicted, color='purple', alpha=0.35)
-    plt.scatter(x_test_set, y_test_set, color = 'green', alpha = 0.25)
+    plt.scatter(x_test_set, y_test_set, color = 'green', alpha = 0.35)
     plt.show()
     plt.savefig(graphfile ,transparent=True)
 
@@ -125,61 +125,6 @@ if __name__ == "__main__":
     parser.add_argument("col")
     parser.add_argument("t")
     args = parser.parse_args()
-
-    #data = pd.read_csv(args.info_filename)
-    #print(data.info())
-    #print(data.head())
-
-    # have to use Time as predictor variable
-    #x1 = getAllMins(args.info_filename)
-    #x = pd.Series(x1)
-    #X = x
-
-    #Y1 = getHistoricalData(args.info_filename, x1, args.ticker)
-    #print(Y1)
-    #Y2 = getColData(args.col, Y1)
-    #y = pd.Series(Y2)
-
-    #y = data.loc[(data['Ticker'] == args.ticker)]
-    #y = y.iloc[:,3:4]
-
-    #print(f" X: {X}")
-    #print(f"y: {y}")
     
-    # split data into training and test sets
-    #x_training_set, x_test_set, y_training_set, y_test_set = train_test_split(X,y)
-
-    # cast data options from series into 1D arrays
-    #x_training_set, x_test_set, y_training_set, y_test_set = x_training_set.values, x_test_set.values, y_training_set.values, y_test_set.values
-    #x_training_set, x_test_set, y_training_set, y_test_set = x_training_set.reshape(-1,1), x_test_set.reshape(-1,1), y_training_set.reshape(-1,1), y_test_set.reshape(-1,1)
-
-    #plt.title('Relationship between dependent and target variable')
-    #print(type(x_training_set))
-    #print(type(y_training_set))
-    #print(x_training_set)
-    #print(y_training_set)
-    #plt.scatter(x_training_set,y_training_set, color = 'pink', alpha = 0.35)
-    #plt.show()
-
-    # fit model to data
-    #lm = linear_model.LinearRegression()
-    #lm.fit(x_training_set, y_training_set)
-    #print('Slope: ', lm.coef_)
-    #print('Intercept: ', lm.intercept_)
-
-    # evaluate model
-    #model_score = lm.score(x_training_set, y_training_set)
-    #print('Model score: {:.4f} '.format(model_score))
-    #y_predicted = lm.predict(x_test_set)
-    #r_squared_score = r2_score(y_test_set, y_predicted)
-    #print('r square: {:.4f}'.format(r_squared_score))
-    # lower value is prefered
-    #mse = mean_squared_error(y_test_set, y_predicted)
-    #print('MSE: {:.4f}'.format(mse))
-
-    #plt.title('Comparison of Y values in test and the predicted values')
-    #plt.plot(x_test_set, y_predicted, color='red', alpha=0.35)
-    #plt.scatter(x_test_set, y_test_set, color = 'pink', alpha = 0.25)
-    #plt.show()
 
     trainData(args.info_filename, args.ticker, args.col, args.t, args.graph_filename)
